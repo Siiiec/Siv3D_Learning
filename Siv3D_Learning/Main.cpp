@@ -1,6 +1,7 @@
 ﻿#include <Siv3D.hpp>
 #include <boost/format.hpp>
 #include <Eigen/Core>
+#include <Eigen/QR>
 #include <Eigen/Geometry>
 
 
@@ -39,7 +40,7 @@ std::pair<Eigen::MatrixXd, std::vector<double>> GradientDescent(const Eigen::Mat
     
     vector<double> costHistory(itersNum);
     
-    int m {y.rows()};
+    int m = y.rows();
     
     for (unsigned i = 0; i < itersNum; ++i)
     {
@@ -58,6 +59,16 @@ std::pair<Eigen::MatrixXd, std::vector<double>> GradientDescent(const Eigen::Mat
     return std::make_pair(move(theta),  move(costHistory));
 }
 
+Eigen::MatrixXd NormalEquation(Eigen::MatrixXd&& theta, const Eigen::MatrixXd& X, const Eigen::MatrixXd& y)
+{
+    //Eigen::MatrixXd pinv = (X.transpose() * X).completeOrthogonalDecomposition().pseudoInverse();
+    
+    theta = (X.transpose() * X).inverse() * X.transpose() * y;
+
+    return std::move(theta);
+}
+
+
 void Main()
 {
     using namespace Eigen;
@@ -65,7 +76,7 @@ void Main()
     using std::endl;
 
     //srand((unsigned int)time(0));
-    srand(1);
+    srand(time(0));
 
     //Console::Open();
     //
@@ -77,10 +88,18 @@ void Main()
 
     //MatrixXd theta = Eigen::MatrixXd::Zero(2, 1);
     //MatrixXd y {MatrixXd::Random(10, 1) * 10};
-    //
-    //cout << "initial cost : " << Cost(X, theta, y);
 
-    //auto g = GradientDescent(X, std::move(theta), y, 0.03, 1500);
+    //MatrixXd theta2 = Eigen::MatrixXd::Zero(2, 1);
+    //
+    //cout << "initial cost : " << Cost(X, theta, y) << endl;
+
+    //auto g = GradientDescent(X, std::move(theta), y, 0.03, 1000);
+
+    //theta = std::move(g.first);
+    //theta2 = NormalEquation(std::move(theta2), X, y);
+
+    //cout << "theta \n" << theta << endl;
+    //cout << "theta2 \n" << theta2 << endl;
 
     //char c;
     //std::cin >> c;
@@ -101,8 +120,10 @@ void Main()
     std::vector<Vec2> positions;
 
     GUIStyle style {GUIStyle::Default};
-    style.showTitle = false;
+    //style.showTitle = false;
+    style.movable = true;
     GUI gui(style);
+    gui.setTitle(L"title");
     gui.add(L"button", GUIButton::Create(L"計算"));
     gui.setCenter(Window::BaseCenter());
 
@@ -111,12 +132,12 @@ void Main()
     while (System::Update())
     {
         //Transformer2D t(Mat3x2::Scale(0, -1).Translate(Window::BaseHeight(), 0), true);
-
+        //Transformer2D t(Mat3x2::Translate(Window::BaseWidth() / 2, Window::BaseHeight() / 2));
         font(L"ようこそ、Siv3D の世界へ！").draw();
 
         if (!gui.button(L"button").mouseOver && Input::MouseR.clicked)
         {
-            positions.push_back(Mouse::Pos());
+            positions.push_back(Mouse::PosF());
             X.conservativeResize(X.rows() + 1, NoChange);
             X.row(X.rows() - 1) = RowVector2d(1, Mouse::PosF().x * 0.01);
             y.conservativeResize(y.rows() + 1, NoChange);
@@ -124,7 +145,8 @@ void Main()
         }
         else if (gui.button(L"button").pushed && !positions.empty())
         {
-            theta = GradientDescent(X, std::move(theta), y, 0.0003, 1000).first;
+            //theta = GradientDescent(X, std::move(theta), y, 0.0003, 1000).first;
+            theta = NormalEquation(std::move(theta), X, y);
             currentSize = positions.size();
         }
 
