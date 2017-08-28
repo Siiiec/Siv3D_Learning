@@ -3,7 +3,7 @@
 #include <HamFramework.hpp>
 
 #include "Cells\Cells2D.hpp"
-#include "Map2D.hpp"
+#include "Editor.hpp"
 
 using namespace std;
 
@@ -16,17 +16,17 @@ void Main()
 
     const Font font(30);
 
-    Map2D map(20, 20);
+    Editor editor;
 
     
     while (System::Update())
     {
 
-
+        
         {
             const auto transformer = ScalableWindow::CreateTransformer();
 
-            map.draw();
+            
 
         }
 

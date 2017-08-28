@@ -2,6 +2,8 @@
 
 #include <Siv3D.hpp>
 
+
+
 class Map2D
 {
 public:
@@ -21,7 +23,7 @@ public:
 
     void update()
     {
-        
+        using f3 = const char*(*[3][2])(const char*, size_t, bool(*)(char, size_t));
     }
 
     void draw() const
