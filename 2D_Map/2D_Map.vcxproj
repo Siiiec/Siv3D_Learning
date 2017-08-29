@@ -254,7 +254,7 @@
     <None Include="Example\Test.json" />
     <None Include="Example\Well\Well.mtl" />
     <None Include="Example\Well\Well.wavefrontobj" />
-    <None Include="Sources\Cells\impl\Cells2D_impl.ipp" />
+    <None Include="Sources\Cells\impl\Cells2D_impl.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Engine\dll(x64)\libmpg123\COPYING.txt" />

@@ -55,4 +55,4 @@ namespace Cells
 }
 
 
-#include "impl\Cells2D_impl.ipp"
+#include "impl\Cells2D_impl.hpp"

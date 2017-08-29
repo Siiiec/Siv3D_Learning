@@ -8,7 +8,7 @@ namespace Cells
     Cells2D<T>::Cells2D(size_t row, size_t col)
         : m_rows(row), m_cols(col)
     {
-        m_cells = vector<T>(m_rows * m_cols);
+        m_cells = std::vector<T>(m_rows * m_cols);
     }
 
 #pragma region コメントアウト
