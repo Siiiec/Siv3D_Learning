@@ -71,6 +71,18 @@ namespace Cells
         return m_cells[m_cols * row + col];
     }
     
+    template <class T>
+    T& Cells2D<T>::operator[](size_t index)
+    {
+        return m_cells[index];
+    }
+
+    template <class T>
+    T& Cells2D<T>::operator[](size_t index) const
+    {
+        return m_cells[index];
+    }
+
 
     template <class T>
     Cells2D<T> Cells2D<T>::resize(size_t newRowSize, size_t newColSize, bool copy)
@@ -114,7 +126,7 @@ namespace Cells
     template <class T>
     inline size_t Cells2D<T>::cols() noexcept
     {
-        return m_cols
+        return m_cols;
     }
 
 }

@@ -34,7 +34,9 @@ namespace Cells
         
         T& operator()(size_t row, size_t col);
         T& operator()(size_t row, size_t col) const;
-        
+        T& operator[](size_t index);
+        T& operator[](size_t index) const;
+
         Cells2D resize(size_t newRowSize, size_t newColSize, bool copy = false);
 
         //ëSóvëfêî
