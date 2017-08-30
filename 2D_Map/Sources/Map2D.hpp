@@ -37,6 +37,7 @@ private:
     std::vector<texAndKey> m_texAndKey;
 
     Rect m_drawRegion;
+    Rect m_clickRegion;
     std::unique_ptr<Cells::Cells2D<int>> m_cells;
 
 private:

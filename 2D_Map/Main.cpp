@@ -14,7 +14,7 @@ void ConsoleIO()
 
     Console::Open();
     
-    auto cells {Cells2D<int>(10, 10)};
+    auto cells {Cells2D<int>(5, 10)};
 
     for (int i = 0; i < cells.size(); ++i)
     {
@@ -32,7 +32,7 @@ void ConsoleIO()
     }
 
     cout << "-------２重ループ-------\n";
-    int x;
+    
     for (int r = 0; r < cells.rows(); ++r)
     {
         cout << "row : " << r << '\n';
@@ -55,8 +55,8 @@ void ConsoleIO()
 
 void Main()
 {
-    ConsoleIO();
-    Console::Open();
+    //ConsoleIO();
+    
 
     Window::SetBaseSize(1280, 720);
     ScalableWindow::Setup(1280, 720);
@@ -66,7 +66,7 @@ void Main()
 
     const Font font(30);
 
-    Map2D map {10, 20};
+    Map2D map {50, 50};
         
     while (System::Update())
     {
@@ -75,7 +75,7 @@ void Main()
             map.update();
             map.draw();
             
-
+            font(Profiler::FPS()).draw();
         }
 
         ScalableWindow::DrawBlackBars(Palette::Black);

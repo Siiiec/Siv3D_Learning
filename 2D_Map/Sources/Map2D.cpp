@@ -14,7 +14,7 @@ Map2D::Map2D(int rows, int cols)
     using namespace std;
 
     m_cells = std::make_unique<Cells::Cells2D<int>>(m_rows, m_cols);
-    m_drawRegion = Rect(Point {10, 10}, Point {Window::BaseHeight() - 20, Window::BaseHeight() - 20});
+    setDrawRegion(Rect(Point {10, 10}, Point {Window::BaseHeight() - 20, Window::BaseHeight() - 20}));
     int cellW = static_cast<int>(oneCellWidth());
     
     //初期テクスチャの追加
@@ -37,12 +37,12 @@ Map2D::~Map2D()
 void Map2D::update()
 {
     //クリック判定
-    if (m_drawRegion.mouseOver)
+    if (m_clickRegion.mouseOver)
     {
         Cursor::SetStyle(CursorStyle::Hand);
         const auto pos = Mouse::Pos() - m_drawRegion.tl;
-        const int r = static_cast<int>(pos.y / oneCellWidth());
-        const int c = static_cast<int>(pos.x / oneCellWidth());
+        const int c = Clamp(static_cast<int>(pos.x / oneCellWidth()), 0, m_cols - 1);
+        const int r = Clamp(static_cast<int>(pos.y / oneCellWidth()), 0, m_rows - 1);
 
         if (Input::MouseL.pressed)
         {
@@ -74,6 +74,7 @@ void Map2D::resize(int rows, int cols)
 {
     m_rows = rows;
     m_cols = cols;
+    setDrawRegion(m_drawRegion);
 }
 
 Rect Map2D::drawRegion() const
@@ -84,6 +85,8 @@ Rect Map2D::drawRegion() const
 void Map2D::setDrawRegion(const Rect& rect)
 {
     m_drawRegion = RectF(rect);
+    auto cellW = oneCellWidth();
+    m_clickRegion = RectF(m_drawRegion.tl, cellW * m_cols, cellW * m_rows);
 }
 
 
@@ -91,7 +94,7 @@ void Map2D::setDrawRegion(const Rect& rect)
 
 inline double Map2D::oneCellWidth() const
 {
-    if (m_drawRegion.w < m_drawRegion.h)
+    if (m_rows > m_cols)
     {
         return m_drawRegion.h / m_rows;
     }
