@@ -5,6 +5,42 @@
 #include "Cells\Cells2D.hpp"
 #include "Editor.hpp"
 #include "Map2D.hpp"
+#include "Utility\MeasureTime.hpp"
+
+
+
+
+void ConsoleIO();
+
+void Main()
+{
+    //ConsoleIO();
+
+    Window::SetBaseSize(1280, 720);
+    ScalableWindow::Setup(1280, 720);
+    Window::Resize(800, 450);
+
+    Graphics::SetBackground(Palette::Peachpuff);
+
+    const Font font(30);
+
+    Map2D map {50, 50};
+    
+    while (System::Update())
+    {
+        {
+            const auto transformer = ScalableWindow::CreateTransformer();
+            map.update();
+            map.draw();
+            
+            font(Profiler::FPS()).draw(0, 0, Palette::Black);
+        }
+
+        ScalableWindow::DrawBlackBars(Palette::Black);
+    }
+}
+
+
 
 
 void ConsoleIO()
@@ -51,33 +87,4 @@ void ConsoleIO()
         ;
 
     Console::Close();
-}
-
-void Main()
-{
-    //ConsoleIO();
-    
-
-    Window::SetBaseSize(1280, 720);
-    ScalableWindow::Setup(1280, 720);
-    Window::Resize(800, 450);
-
-    Graphics::SetBackground(Palette::Peachpuff);
-
-    const Font font(30);
-
-    Map2D map {50, 50};
-        
-    while (System::Update())
-    {
-        {
-            const auto transformer = ScalableWindow::CreateTransformer();
-            map.update();
-            map.draw();
-            
-            font(Profiler::FPS()).draw();
-        }
-
-        ScalableWindow::DrawBlackBars(Palette::Black);
-    }
 }

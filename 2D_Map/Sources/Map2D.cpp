@@ -1,5 +1,6 @@
 #include "Map2D.hpp"
 #include "Cells\Cells2D.hpp"
+#include "Utility\MeasureTime.hpp"
 
 
 Map2D::Map2D()
@@ -62,6 +63,23 @@ void Map2D::update()
 void Map2D::draw() const
 {
     double cellWidth = oneCellWidth();
+
+
+    Utility::MeasureTime t(true);
+
+    RectF dot{0, 0, cellWidth};
+    t.measure();
+    dot(tex(0, 0)).draw();
+    //dot.draw();
+    tex(0, 0).draw();
+    t.measure();
+    dot.drawFrame(1.0, 1.0, Palette::Gray);
+    t.measure();
+
+    std::vector<Utility::MeasureTime::timer::duration> times;
+    for (int i = 0; i <= 2; ++i)
+        times.push_back(t.getDuration(i));
+
     for (const auto& i : step({0, 0}, {m_cols, m_rows}))
     {
         RectF dot { m_drawRegion.tl.x + i.x * cellWidth, m_drawRegion.tl.y + i.y * cellWidth, cellWidth};

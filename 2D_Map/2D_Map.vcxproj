@@ -169,6 +169,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Sources\Editor.cpp" />
     <ClCompile Include="Sources\Map2D.cpp" />
+    <ClCompile Include="Sources\Utility\MeasureTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
@@ -287,6 +288,7 @@
     <ClInclude Include="Sources\Cells\Cells2D.hpp" />
     <ClInclude Include="Sources\Editor.hpp" />
     <ClInclude Include="Sources\Map2D.hpp" />
+    <ClInclude Include="Sources\Utility\MeasureTime.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
